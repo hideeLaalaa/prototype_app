@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <view
+                android:id="@+id/row_tab"
+                class="android.view.View"
+                android:layout_width="10dp"
+                android:background="@color/green"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/row_course"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="Course Code" />
+
+        </LinearLayout>
+        <view
+            class="android.view.View"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#000"/>
+        <view
+            class="android.view.View"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#333"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
