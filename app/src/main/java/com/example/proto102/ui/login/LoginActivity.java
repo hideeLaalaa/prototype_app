@@ -2,9 +2,12 @@ package com.example.proto102.ui.login;
 
 import android.app.Activity;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -22,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.proto102.HomeActivity;
 import com.example.proto102.R;
 import com.example.proto102.ui.login.LoginViewModel;
 import com.example.proto102.ui.login.LoginViewModelFactory;
@@ -29,11 +33,15 @@ import com.example.proto102.ui.login.LoginViewModelFactory;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Login Page");
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -70,11 +78,18 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
+                    //This is used to transit from one activity to another
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    //This is used to enable transition animation
+                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation
+                            (LoginActivity.this);
+                    startActivity(intent,compat.toBundle());
+
                 }
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
-                finish();
+//                finish();
             }
         });
 
