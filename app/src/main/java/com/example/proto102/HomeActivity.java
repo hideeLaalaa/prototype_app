@@ -1,10 +1,16 @@
 package com.example.proto102;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +23,8 @@ import com.example.proto102.ui.login.LoginActivity;
 public class HomeActivity extends AppCompatActivity {
 
     private ListView mListView;
+    private CourseDbAdapter xDbAdapter;
+    private CourseCursorAdapter xCursorAdapter;
     Toolbar toolbar;
 
     @Override
@@ -38,6 +46,34 @@ public class HomeActivity extends AppCompatActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mListView = (ListView) findViewById(R.id.courses_list_view);
+        mListView.setDivider(null);
+        xDbAdapter = new CourseDbAdapter(this);
+        xDbAdapter.open();
+
+        Cursor cursor = xDbAdapter.fetchAllCourses();
+
+        //from column defined in the db
+        String[] from = new String[]{
+                CourseDbAdapter.COL_COURSE
+        };
+
+        //to the ids of views in the layout
+        int[] to = new int[]{
+                R.id.row_course
+        };
+
+        xCursorAdapter = new CourseCursorAdapter(
+                //context
+                this,
+                //layout of d row
+                R.layout.courses_row,
+                //cursor
+                cursor,
+                //from
+                from,
+                //to
+                to, 0
+        );
 
         //The ArrayAdapter is d controller in model-view-cntrlr relationship
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(

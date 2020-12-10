@@ -8,12 +8,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:backgroundTint="#7C246168"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:backgroundTint="#8A2626"
             android:orientation="horizontal">
 
             <view
@@ -41,11 +43,12 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+
         <view
             class="android.view.View"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#000"/>
+            android:background="#000" />
 
         <view
             class="android.view.View"
