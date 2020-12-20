@@ -5,12 +5,19 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -22,8 +29,10 @@ public class HomeActivity extends AppCompatActivity {
     private CourseDbAdapter xDbAdapter;
     private CourseCursorAdapter xCursorAdapter;
     Toolbar toolbar;
+    private int noChecked = 0;
 
     @Override
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -31,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -39,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
                 HomeActivity.super.onBackPressed();
             }
         });
+
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mListView = (ListView) findViewById(R.id.courses_list_view);
@@ -96,24 +107,7 @@ public class HomeActivity extends AppCompatActivity {
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                xDbAdapter.open();
-//                xDbAdapter.deleteCourseById((int)xCursorAdapter.getItemId(position));
-//                xCursorAdapter.changeCursor(xDbAdapter.fetchAllCourses());
-//                Toast.makeText(HomeActivity.this, "Eleyi work "+ position,
-//                        Toast.LENGTH_SHORT).show();
-//                xDbAdapter.close();
-            }
-
-        });
-        mListView.setLongClickable(true);
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//                xDbAdapter.open();
-//                xDbAdapter.deleteCourseById((int)xCursorAdapter.getItemId(position));
-//                xCursorAdapter.changeCursor(xDbAdapter.fetchAllCourses());
-//                xDbAdapter.close();
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
                 ListView modeListView = new ListView(HomeActivity.this);
                 String[] modes = new String[]{"Duplicate Course","Delete Course"};
@@ -149,9 +143,11 @@ public class HomeActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-                return true;
             }
+
         });
+
+        multiChoice();
 
     }
 
@@ -180,6 +176,10 @@ public class HomeActivity extends AppCompatActivity {
 //                finish();
                 finishAffinity();
                 return true;
+            case R.id.menu_item_delete_course:
+                finish();
+                return true;
+
             default:
                 return false;
         }
@@ -197,4 +197,117 @@ public class HomeActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    public void multiChoice(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
+
+            mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+            mListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+                @Override
+                public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                    if (checked){
+                        noChecked++;
+                    }
+                    else{
+                        noChecked--;
+
+                    }
+                    mode.setTitle(noChecked+" Selected");
+                }
+
+                @SuppressLint("WrongConstant")
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    toolbar.setVisibility(View.INVISIBLE);
+                    MenuInflater inflater = mode.getMenuInflater();
+                    inflater.inflate(R.menu.cam_menu,menu);
+                    mode.setTitle(noChecked+" Selected");
+//                    mode.getCustomView().setForeground(toolbar.getForeground());
+//                    mode.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return false;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    xDbAdapter.open();
+                    switch (item.getItemId()){
+                        case R.id.menu_item_delete_course:
+                            for (int nC = xCursorAdapter.getCount()-1;nC>=0;nC--){
+                                if (mListView.isItemChecked(nC)){
+                                    xDbAdapter.deleteCourseById(getIdFromPosition(nC));
+                                }
+                            }
+                            mode.finish();
+                            xCursorAdapter.changeCursor(xDbAdapter.fetchAllCourses());
+                            return true;
+                    }
+                    xDbAdapter.close();
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    toolbar.setVisibility(View.VISIBLE);
+                    noChecked=0;
+                }
+
+            });
+        }
+    }
+
+    private int getIdFromPosition(int nC){
+        return (int) xCursorAdapter.getItemId(nC);
+    }
+
 }
+
+
+//LONG CLICKABLE ENABLING
+//        mListView.setLongClickable(true);
+//                mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//@Override
+//public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+//        ListView modeListView = new ListView(HomeActivity.this);
+//        String[] modes = new String[]{"Duplicate Course","Delete Course"};
+//        ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(HomeActivity.this,
+//        android.R.layout.simple_list_item_1,android.R.id.text1,modes);
+//        modeListView.setAdapter(modeAdapter);
+//        builder.setView(modeListView);
+//final Dialog dialog = builder.create();
+//        dialog.show();
+//        modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//@Override
+//public void onItemClick(AdapterView<?> parent, View view, int position1, long id) {
+//        xDbAdapter.open();
+//        String name = xDbAdapter.fetchCourseById((int)xCursorAdapter.getItemId(position)).getxCourse();
+//        //duplicate course
+//        if (position1==0){
+//        if (courseExist(-1,name+"2")){
+//        Toast.makeText(HomeActivity.this, name+"2 Course Exists",
+//        Toast.LENGTH_SHORT).show();
+//        }else {
+//        xDbAdapter.duplicateCourse(xDbAdapter.fetchCourseById((int)xCursorAdapter.getItemId(position)));
+//        }
+//        xCursorAdapter.changeCursor(xDbAdapter.fetchAllCourses());
+//
+//        }//delete course
+//        else{
+//        xDbAdapter.deleteCourseById((int)xCursorAdapter.getItemId(position));
+//        xCursorAdapter.changeCursor(xDbAdapter.fetchAllCourses());
+//        Toast.makeText(HomeActivity.this, name+" Deleted",
+//        Toast.LENGTH_SHORT).show();
+//        }
+//        xDbAdapter.close();
+//        dialog.dismiss();
+//        }
+//        });
+//        return true;
+//        }
+//        });
