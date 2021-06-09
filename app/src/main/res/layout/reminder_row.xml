@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#2D453D"
+    android:backgroundTintMode="multiply"
+    android:orientation="vertical"
+    tools:context=".HomeActivity">
+
+    <LinearLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_edittext"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/note_row_text"
+                android:layout_width="343dp"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:minHeight="55dp"
+                android:paddingLeft="5dp"
+                android:text="fkjkkfjfkjfjgjbfnjdm msdmg kgjfrjjejlndvjkjdm" />
+
+            <ImageView
+                android:id="@+id/remove_note"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="5"
+                app:srcCompat="@drawable/ic_baseline_remove_circle_outline_24" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/alarm_progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="55"
+                android:progressTint="#127366" />
+
+            <TextView
+                android:id="@+id/alarm_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="20:55\nDec 14"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                android:textStyle="bold|italic"
+                android:typeface="sans"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="6dp" />
+
+</LinearLayout>

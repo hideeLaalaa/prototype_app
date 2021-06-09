@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
@@ -32,8 +33,12 @@ public class CourseCursorAdapter extends SimpleCursorAdapter {
             viewHolder = new ViewHolder();
             viewHolder.colImp = cursor.getColumnIndexOrThrow(CourseDbAdapter.COL_CARRY);
             viewHolder.listTab=view.findViewById(R.id.row_tab);
+            viewHolder.colUnit=cursor.getColumnIndexOrThrow(CourseDbAdapter.COL_UNIT);
+            viewHolder.unitView=view.findViewById(R.id.unit_listView);
             view.setTag(viewHolder);
         }
+
+//        viewHolder.unitView.setText(""+cursor.getInt(viewHolder.colUnit));
 
         if (cursor.getInt(viewHolder.colImp)>0){
             //if carryover course
@@ -48,6 +53,10 @@ public class CourseCursorAdapter extends SimpleCursorAdapter {
         int colImp;
         //store the view
         View listTab;
+        //unit column
+        int colUnit;
+        //unit textview
+        TextView unitView;
     }
 
 

@@ -9,10 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity"
+        <activity
+            android:name=".courseActivity"
+            android:label="@string/title_activity_course"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".HomeActivity"
             android:label="My Courses"
-            android:parentActivityName=".ui.login.LoginActivity">
+            android:parentActivityName=".ui.login.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
 
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+            <!-- <meta-data -->
+            <!-- android:name="android.app.default_searchable" -->
+            <!-- android:value=".SearchActivity" /> -->
         </activity>
         <activity
             android:name=".ui.login.LoginActivity"

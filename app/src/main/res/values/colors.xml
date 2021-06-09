@@ -6,5 +6,11 @@
     <color name="dark_grey">#181818</color>
     <color name="green">#026102</color>
     <color name="red">#DDA80202</color>
+    <color name="black">#000</color>
+    <color name="dark_green">#E8032320</color>
+    <color name="light_grey">#bababa</color>
+    <color name="blue">#ff1118ff</color>
+    <color name="edit_custom_color">#69F0AE</color>
+    <color name="new_custom_color">#FFAB40</color>
 
 </resources>

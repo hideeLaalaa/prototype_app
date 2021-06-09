@@ -5,6 +5,13 @@
     tools:context=".HomeActivity">
 
     <item
+        android:id="@+id/app_bar_search"
+        android:contentDescription="search course"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
+    <item
         android:title = "New Course"
         android:id="@+id/action_new"
         android:orderInCategory="100"
@@ -16,6 +23,32 @@
         android:orderInCategory="200"
         android:title="Exit"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sort"
+        android:contentDescription="sort courses"
+        android:icon="@drawable/ic_baseline_sort_24"
+        android:title="Sort By"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/sort_oldest"
+                android:checkable="true"
+                android:title="default" />
+            <item
+                android:id="@+id/sort_unit"
+                android:checkable="true"
+                android:title="unit" />
+            <item
+                android:id="@+id/sort_name"
+                android:checkable="true"
+                android:menuCategory="secondary"
+                android:title="name" />
+            <item
+                android:id="@+id/sort_carry"
+                android:checkable="true"
+                android:title="status" />
+        </menu>
+    </item>
 
 
 </menu>

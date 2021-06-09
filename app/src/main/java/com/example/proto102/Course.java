@@ -4,13 +4,15 @@ public class Course {
 
     private int xId;
     private String xCourse;
+    private int xUnit;
     private int xCarry;
     private String xLecturer;
     private String xNote;
 
-    public Course(int id,String course,int carry,String lecturer, String note){
+    public Course(int id,String course,int unit,int carry,String lecturer, String note){
         xId=id;
         xCarry=carry;
+        xUnit=unit;
         xCourse=course;
         xLecturer=lecturer;
         xNote=note;
@@ -57,4 +59,11 @@ public class Course {
     }
 
 
+    public int getxUnit() {
+        return xUnit;
+    }
+
+    public void setxUnit(int xUnit) {
+        this.xUnit = xUnit;
+    }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">proto102</string>
+    <string name="app_name">Course</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -9,4 +9,19 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="search_hint">Search Hint</string>
+    <string name="save">SAVE</string>
+    <string name="Nil">0</string>
+    <string name="Unit">UNIT</string>
+    <string name="course_hint">xyz 101</string>
+    <string name="carryOver">CARRY OVER</string>
+    <string name="Notes">Notes</string>
+    <string name="coursecode">COURSE CODE</string>
+    <string name="lecturer">LECTURER</string>
+    <string name="laalaa">Mr Idris</string>
+    <string name="reminders">REMINDERS</string>
+    <string name="course_dialog_title">COURSE DATA</string>
+    <string name="title_activity_course">courseActivity</string>
+    <string name="tab_text_1">Info</string>
+    <string name="tab_text_2">Reminder</string>
 </resources>

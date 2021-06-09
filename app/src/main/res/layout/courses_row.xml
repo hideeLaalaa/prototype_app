@@ -15,7 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:backgroundTint="#8A2626"
+            android:background="@drawable/round_edittext"
+            android:backgroundTint="#20619E72"
             android:orientation="horizontal">
 
             <view
@@ -42,6 +43,22 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#FFFFFF"
+                android:backgroundTint="#40C4FF"
+                android:fontFamily="sans-serif-black"
+                android:paddingTop="6sp"
+                android:paddingBottom="2sp"
+                android:text="2"
+                android:textAlignment="center"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
         </LinearLayout>
 
         <view
@@ -54,7 +71,7 @@
             class="android.view.View"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#391212" />
+            android:background="#121D39" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

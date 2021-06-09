@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:backgroundTint="#7C246168"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="?android:attr/activatedBackgroundIndicator"
+                android:backgroundTint="#A80E6671"
+                android:orientation="horizontal">
+
+                <view
+                    android:id="@+id/row_tab"
+                    class="android.view.View"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:background="#146314" />
+
+                <TextView
+                    android:id="@+id/row_course"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="5"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:text="Course Code"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="@android:color/black"
+                    android:textColorHighlight="@color/cardview_dark_background"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/unit_listView"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_edittext"
+                    android:backgroundTint="#0F3BB52E"
+                    android:fontFamily="sans-serif-black"
+                    android:padding="12sp"
+                    android:shadowColor="#FFFFFF"
+                    android:shadowRadius="2"
+                    android:text="2"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:typeface="sans"
+                    app:autoSizeTextType="none" />
+
+            </LinearLayout>
+
+            <view
+                class="android.view.View"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#4D000000"
+                android:paddingRight="20dp"
+                android:layout_marginRight="3dp"/>
+
+            <view
+                class="android.view.View"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="5dp"
+                android:background="#2078FF18"
+                android:paddingRight="20sp" />
+
+        </LinearLayout>
+
+
+</LinearLayout>

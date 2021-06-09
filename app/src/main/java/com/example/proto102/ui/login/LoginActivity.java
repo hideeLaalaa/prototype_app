@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     Toolbar toolbar;
+    private int loginLoadingTime=1000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -128,8 +130,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                Handler handler = new Handler();
+//                loginLoadingTime = 2000;
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loginViewModel.login(usernameEditText.getText().toString(),
+                                passwordEditText.getText().toString());
+                    }
+                }, loginLoadingTime);
+
             }
         });
     }

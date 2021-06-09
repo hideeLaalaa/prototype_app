@@ -14,6 +14,7 @@ public class CourseDbAdapter {
 
     public static final String COL_ID = "_id";
     public static final String COL_COURSE = "course";
+    public static final String COL_UNIT = "unit";
     public static final String COL_CARRY = "carry";
     public static final String COL_LECTURER = "lecturer";
     public static final String COL_NOTE = "note";
@@ -21,9 +22,16 @@ public class CourseDbAdapter {
     //these are the corresponding indices
     public static final int INDEX_ID = 0;
     public static final int INDEX_COURSE = INDEX_ID+1;
-    public static final int INDEX_CARRY = INDEX_ID+2;
-    public static final int INDEX_LECTURER = INDEX_ID+3;
-    public static final int INDEX_NOTE = INDEX_ID+4;
+    public static final int INDEX_UNIT = INDEX_ID+2;
+    public static final int INDEX_CARRY = INDEX_ID+3;
+    public static final int INDEX_LECTURER = INDEX_ID+4;
+    public static final int INDEX_NOTE = INDEX_ID+5;
+
+    //defining sort types
+    public static final int SORT_DEFAULT = 0;
+    public static final int SORT_NAME = 1;
+    public static final int SORT_UNIT = 2;
+    public static final int SORT_CARRY = 3;
 
     //used for logging
     private static final String TAG = "CourseDbAdapter";
@@ -56,13 +64,24 @@ public class CourseDbAdapter {
     //BELOW ARE THE LOGIC THAT HANDLES CREATING READING UPDATING AND DELETING OF
     //REMINDERS OBJECTS (CRUD)
     //--CREATE
-    public void createCourse(String COL_COURSE,Boolean COL_CARRY,
+    public void createCourse(String COL_COURSE,int COL_UNIT,Boolean COL_CARRY,
                              String COL_LECTURER,String COL_NOTE) {
         ContentValues values = new ContentValues();
         values.put(this.COL_COURSE,COL_COURSE);
+        values.put(this.COL_UNIT,COL_UNIT);
         values.put(this.COL_CARRY,COL_CARRY?1:0);
         values.put(this.COL_LECTURER,COL_LECTURER);
         values.put(this.COL_NOTE,COL_NOTE);
+        xDb.insert(TABLE_NAME,null,values);
+    }
+    //duplicate Course
+    public void duplicateCourse(Course course){
+        ContentValues values = new ContentValues();
+        values.put(COL_COURSE,course.getxCourse()+"2");
+        values.put(COL_UNIT,course.getxUnit());
+        values.put(COL_CARRY,course.getxCarry());
+        values.put(COL_LECTURER,course.getxLecturer());
+        values.put(COL_NOTE,course.getxNote());
         xDb.insert(TABLE_NAME,null,values);
     }
 
@@ -70,6 +89,7 @@ public class CourseDbAdapter {
     public void createCourse( Course course){
         ContentValues values = new ContentValues();
         values.put(COL_COURSE,course.getxCourse());
+        values.put(COL_UNIT,course.getxUnit());
         values.put(COL_CARRY,course.getxCarry());
         values.put(COL_LECTURER,course.getxLecturer());
         values.put(COL_NOTE,course.getxNote());
@@ -78,8 +98,8 @@ public class CourseDbAdapter {
 
     //--READ
     public Course fetchCourseById(int id){
-        Cursor cursor = xDb.query(TABLE_NAME,new String[]{COL_ID,COL_COURSE,COL_CARRY,
-                COL_LECTURER,COL_NOTE},COL_ID+"=?",new String[]{String.valueOf(id)},
+        Cursor cursor = xDb.query(TABLE_NAME,new String[]{COL_ID,COL_COURSE,COL_UNIT,COL_CARRY,
+                COL_LECTURER,COL_NOTE},COL_ID+"=?",new String[]{String.valueOf(id)} ,
                 null,null,null,null);
         if (cursor!=null)
             cursor.moveToFirst();
@@ -87,26 +107,69 @@ public class CourseDbAdapter {
         return new Course(
                 cursor.getInt(INDEX_ID),
                 cursor.getString(INDEX_COURSE),
+                cursor.getInt(INDEX_UNIT),
                 cursor.getInt(INDEX_CARRY),
                 cursor.getString(INDEX_LECTURER),
                 cursor.getString(INDEX_NOTE)
         );
     }
+
+    public Cursor fetchCourseCursor(String text){
+//        Cursor cursor = xDb.query(TABLE_NAME,new String[]{COL_ID,COL_COURSE,COL_CARRY,
+//                        COL_LECTURER,COL_NOTE},COL_COURSE+"=?" ,new String[]{"ELE 451"},
+//                null,null,null,null);
+//        if (cursor!=null)
+//            cursor.moveToFirst();
+//        return cursor;
+
+        Cursor c;
+        String sql = "SELECT * FROM "+TABLE_NAME+" WHERE course LIKE '%" +text +"%'";
+//        String sql = "SELECT * FROM "+TABLE_NAME+" WHERE course LIKE '%" +text +"%' ORDER BY carry ASC";//For sorting based on CO status
+//        String sql = "SELECT * FROM "+TABLE_NAME+" ORDER BY course ASC";
+        c=xDb.rawQuery(sql,null);
+        if (c!=null)
+            c.moveToFirst();
+//        return cursor;
+        return c;
+    }
+
     //fetching all courses(objects) by cursor
     public Cursor fetchAllCourses(){
-        Cursor cursor = xDb.query(TABLE_NAME,new String[]{COL_ID,COL_COURSE,COL_CARRY,
+        Cursor cursor = xDb.query(TABLE_NAME,new String[]{COL_ID,COL_COURSE,COL_UNIT,COL_CARRY,
             COL_LECTURER,COL_NOTE},null,null,
                 null,null,null);
         if (cursor!=null)
             cursor.moveToFirst();
-
         return cursor;
+    }
+    //fetching all courses(sorted by types) by cursor
+    public Cursor fetchAllCourses(int type, int mode){
+        if (type==SORT_DEFAULT)
+           return fetchAllCourses();
+        Cursor c=null;
+        if (type==SORT_NAME){
+            String sql = "SELECT * FROM "+TABLE_NAME+" ORDER BY course "+(mode==0?"ASC":"DESC");
+            c=xDb.rawQuery(sql,null);
+        }
+        if (type==SORT_UNIT){
+            String sql = "SELECT * FROM "+TABLE_NAME+" ORDER BY unit "+(mode==0?"ASC":"DESC");
+            c=xDb.rawQuery(sql,null);
+        }
+        if (type==SORT_CARRY){
+            String sql = "SELECT * FROM "+TABLE_NAME+" ORDER BY carry "+(mode==0?"ASC":"DESC");
+            c=xDb.rawQuery(sql,null);
+        }
+        if (c!=null)
+            c.moveToFirst();
+//        return cursor;
+        return c;
     }
 
     //--UPDATE
     public void updateCourse(Course course){
         ContentValues values = new ContentValues();
         values.put(COL_COURSE,course.getxCourse());
+        values.put(COL_UNIT,course.getxUnit());
         values.put(COL_CARRY,course.getxCarry());
         values.put(COL_LECTURER,course.getxLecturer());
         values.put(COL_NOTE,course.getxNote());
@@ -126,10 +189,13 @@ public class CourseDbAdapter {
 //----------------------------------------------------------------------
     //SQL statement used to create the database
     private static final String DATABASE_CREATE =
-            "CREATE TABLE if not exists "+ TABLE_NAME+" ( "+
-                    COL_ID + " INTEGER PRIMARY KEY autoincrement, "+
-                    COL_COURSE + " TEXT, " + COL_CARRY + " INTEGER, "+
-                    COL_LECTURER+" TEXT, "+COL_NOTE+" TEXT );";
+            "CREATE TABLE if not exists "+ TABLE_NAME+
+                    " ( "+ COL_ID + " INTEGER PRIMARY KEY autoincrement, "+
+                    COL_COURSE + " TEXT, " +
+                    COL_UNIT + " INTEGER, " +
+                    COL_CARRY + " INTEGER, "+
+                    COL_LECTURER+" TEXT, " +
+                    COL_NOTE+" TEXT );";
 
     //DBHelper is a SQLite API ised to open/close d db
     private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -138,10 +204,14 @@ public class CourseDbAdapter {
             super(context,DATABASE_NAME,null,DATABASE_VERSION);
         }
 
+
+
         @Override
         public void onCreate(SQLiteDatabase db) {
             Log.w(TAG,DATABASE_CREATE);
+            db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
             db.execSQL(DATABASE_CREATE);
+//            db.execSQL("PRAGMA case_sensititve_like = ON");
         }
 
         @Override

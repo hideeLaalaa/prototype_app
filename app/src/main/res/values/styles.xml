@@ -5,10 +5,39 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
         <!-- This enables transition to be applied. -->
         <item name="android:windowContentTransitions">true</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <!--        <item name="actionModeBackground">@color/colorPrimary</item>-->
+        <item name="windowActionModeOverlay">true</item>
+        <!--        <item name="actionModeBackground">@color/colorPrimary</item>-->
+        <!--        <item name="actionModeCloseDrawable">@drawable/ic_baseline_arrow_back_24</item>-->
+        <!--        <item name="actionModeCloseButtonStyle">@style/Theme.Design.Light</item>-->
+        <!--        <item name="actionBarPopupTheme">@style/CardView.Light</item>-->
+        <!--        <item name="actionBarTheme">@style/Theme.Design.Light</item>-->
+        <item name="actionModeStyle">@style/ActionModeStyle</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
     </style>
+
+    <style name="ActionModeStyle" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/colorPrimary</item>
+        <item name="titleTextStyle">@style/ActionModeTitleTextStyle</item>
+    </style>
+
+    <style name="ActionModeTitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionMode.Title">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

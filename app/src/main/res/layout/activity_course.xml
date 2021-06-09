@@ -14,20 +14,22 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar"
-        tools:ignore="MissingClass" />
+        tools:ignore="MissingClass"
+        tools:visibility="visible" />
 
     <ListView
-        android:paddingLeft="16dp"
-        android:paddingTop="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
         android:id="@+id/courses_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dividerHeight="@dimen/cardview_default_elevation"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:dividerHeight="@dimen/cardview_default_elevation"
+        android:paddingLeft="1dp"
+        android:paddingTop="1dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="5dp"
         tools:ignore="MissingConstraints"
         tools:listitem="@layout/courses_row" />
 
